@@ -3,7 +3,6 @@ package service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-
 import model.Status;
 import model.Task;
 import repository.TaskRepository;
@@ -11,6 +10,7 @@ import util.DateTimeUtil;
 import util.IDGeneratorUtil;
 
 public class TaskService {
+    private Task task;
     private TaskRepository taskRepository;
     private List<Task> tasks = new ArrayList<>();
 
@@ -24,8 +24,9 @@ public class TaskService {
         String createdAt = DateTimeUtil.createdAt();
         String updatedAt = DateTimeUtil.createdAt();
 
-        Task task = new Task(id, description, Status.TODO, createdAt, updatedAt);
+        task = new Task(id, description, Status.TODO, createdAt, updatedAt);
         tasks.add(task);
+        taskRepository.saveTask(task);
     }
 
     public void updateTask(int id, String description){
@@ -41,6 +42,8 @@ public class TaskService {
                 allTask.set(t);
             }
         }
+
+        taskRepository.updateTask(tasks);
     }
 
     public void deleteTask(int id){
@@ -53,6 +56,8 @@ public class TaskService {
                 allTask.remove();
             }
         }
+
+        taskRepository.deleteTask(tasks);
     }
 
     public void markInProgress(int id){
@@ -65,6 +70,8 @@ public class TaskService {
                 t.setStatus(Status.IN_PROGRESS);
             }
         }
+
+        taskRepository.updateTask(tasks);
     }
 
     public void markDone(int id){
@@ -77,12 +84,12 @@ public class TaskService {
                 t.setStatus(Status.DONE);
             }
         }
+        
+        taskRepository.updateTask(tasks);
     }
 
     public void listTasks(){
-        for(Task t : tasks){
-            System.out.println(t.toFileString());
-        }
+        taskRepository.loadTask();
     }
 
     public void listTasksbyStatus(){
