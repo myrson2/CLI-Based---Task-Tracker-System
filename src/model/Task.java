@@ -1,5 +1,7 @@
 package model;
 
+import util.DateTimeUtil;
+
 public class Task {
     private int id;
     private String description;
@@ -16,7 +18,7 @@ public class Task {
         this.updatedAt   = updatedAt;
     }
 
-    public String details(){
+    public String toFileString(){
         return String.format("ID: %s || Description: %s || Status: %s || Created: %s || Updated At: %s", id, description, status.getDescription(), createdAt, updatedAt);
     }
 

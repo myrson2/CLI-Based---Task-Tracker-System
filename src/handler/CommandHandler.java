@@ -1,12 +1,7 @@
 package handler;
 
-import java.time.LocalDateTime;
 import java.util.Scanner;
-
-import model.Status;
 import service.TaskService;
-import util.DateTimeUtil;
-import util.IDGeneratorUtil;
 import util.InputUtil;
 
 public class CommandHandler {
@@ -21,7 +16,6 @@ public class CommandHandler {
     public void handle(){
         boolean isContinue = true;
         while (isContinue){
-            taskService.details();
             
             int choice = handleMenu(scanner);
             
@@ -39,23 +33,23 @@ public class CommandHandler {
                     break;
                 
                 case 3:
-                    
+                    handleDelete();
                     break;
                 
                 case 4:
-                    
+                    handleInProgress();
                     break;
                 
                 case 5:
-                    
+                    handleMarkDone();
                     break;
 
                 case 6:
-                    
+                    handleList();
                     break;
 
                 case 7:
-                    
+                    handleTaskbyStatus();
                     break;
                 default:
                     break;
@@ -89,6 +83,29 @@ public class CommandHandler {
         String description = InputUtil.readString("Enter Description: ", scanner);
 
         taskService.updateTask(id, description);
+    }
+    
+    public void handleDelete(){
+        int id = InputUtil.readInt("Enter ID: ", scanner);
+        taskService.deleteTask(id);
+    }
+
+    public void handleInProgress(){
+        int id = InputUtil.readInt("Enter ID: ", scanner);
+        taskService.markInProgress(id);
+    }
+
+    public void handleMarkDone(){
+        int id = InputUtil.readInt("Enter ID: ", scanner);
+        taskService.markDone(id);
+    }
+    
+    public void handleList(){
+        taskService.listTasks();
+    }
+    
+    public void handleTaskbyStatus(){
+        taskService.listTasksbyStatus();
     }
     
     public TaskService getTaskService() {

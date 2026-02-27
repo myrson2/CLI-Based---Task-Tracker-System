@@ -43,9 +43,70 @@ public class TaskService {
         }
     }
 
-    public void details(){
+    public void deleteTask(int id){
+        ListIterator<Task> allTask = tasks.listIterator();
+
+        while(allTask.hasNext()){
+            Task t = allTask.next();
+
+            if(id == t.getId()){
+                allTask.remove();
+            }
+        }
+    }
+
+    public void markInProgress(int id){
+        ListIterator<Task> allTask = tasks.listIterator();
+
+        while(allTask.hasNext()){
+            Task t = allTask.next();
+
+            if(id == t.getId()){
+                t.setStatus(Status.IN_PROGRESS);
+            }
+        }
+    }
+
+    public void markDone(int id){
+        ListIterator<Task> allTask = tasks.listIterator();
+
+        while(allTask.hasNext()){
+            Task t = allTask.next();
+
+            if(id == t.getId()){
+                t.setStatus(Status.DONE);
+            }
+        }
+    }
+
+    public void listTasks(){
         for(Task t : tasks){
-            System.out.println(t.details());
+            System.out.println(t.toFileString());
+        }
+    }
+
+    public void listTasksbyStatus(){
+        System.out.println("Tasks: ");
+        System.out.println("TODO: ");
+        
+        for (Task task : tasks) {
+            if(task.getStatus() == Status.TODO){
+                System.out.println(task.toFileString());
+            }
+        }
+
+        System.out.println("\nIn Progress: ");
+        for (Task task : tasks) {
+            if(task.getStatus() == Status.IN_PROGRESS){
+                System.out.println(task.toFileString());
+            }
+        }
+
+         System.out.println("\nDone: ");
+        for (Task task : tasks) {
+            if(task.getStatus() == Status.DONE){
+                System.out.println(task.toFileString());
+            }
         }
     }
 
