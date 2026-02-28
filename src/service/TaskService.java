@@ -28,9 +28,9 @@ public class TaskService {
         String updatedAt = DateTimeUtil.createdAt();
 
         task = new Task(id, description, Status.TODO, createdAt, updatedAt);
-        tasks.add(task);
         try {
             taskRepository.saveTask(task);
+            tasks.add(task);
         } catch (FileStorageException e) {
             System.out.println("Error: " + e.getMessage());
         }
