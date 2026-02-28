@@ -16,6 +16,7 @@ public class TaskRepository {
 
     public void saveTask(Task task) throws FileStorageException {
         boolean append = !FileUtil.createFile(taskFiles);
+        
         FileUtil.writeToFile(taskFiles, task.toFileString(), append);
     }
 

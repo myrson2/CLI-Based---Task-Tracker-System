@@ -13,7 +13,7 @@ public class IDGeneratorUtil{
         // Keep generating until we find a unique positive ID
         do {
             // Generate positive ID (0 to Integer.MAX_VALUE)
-            num = Math.abs(random.nextInt());
+            num = Math.abs(random.nextInt(1000));
         } while (id.contains(num) && id.size() < Integer.MAX_VALUE);
         
         id.add(num);

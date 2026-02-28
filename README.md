@@ -105,7 +105,6 @@ Each task contains:
 - `loadTasks()` → Reads tasks from file
 - `saveTasks()` → Writes tasks to file
 - `appendTask()` → Adds new task entry
-- `generateNextId()` → Ensures unique IDs
 
 ---
 
@@ -143,6 +142,7 @@ Each task contains:
 **Responsibility:** Handles User-Input
 - 'DateTime.Util'
 - 'FileUtil'
+- 'IDGeneratorUtil'
 
 ---
 ### **Exceptions**

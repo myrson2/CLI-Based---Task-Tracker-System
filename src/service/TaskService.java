@@ -24,8 +24,8 @@ public class TaskService {
     // ------- Methods ---------
     public void addTask(String description) {
         int id = IDGeneratorUtil.generateId();
-        String createdAt = DateTimeUtil.createdAt();
-        String updatedAt = DateTimeUtil.createdAt();
+        String createdAt = DateTimeUtil.date();
+        String updatedAt = DateTimeUtil.date();
 
         task = new Task(id, description, Status.TODO, createdAt, updatedAt);
         try {
@@ -45,7 +45,7 @@ public class TaskService {
             if(id == t.getId()){
                 t.setDescription(description);
                 t.setId(id);
-                t.setUpdatedAt(DateTimeUtil.createdAt());
+                t.setUpdatedAt(DateTimeUtil.date());
                 allTask.set(t);
             }
         }
