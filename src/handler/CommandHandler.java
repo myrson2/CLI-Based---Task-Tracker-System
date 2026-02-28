@@ -1,6 +1,9 @@
 package handler;
 
 import java.util.Scanner;
+
+import exceptions.InvalidCommandException;
+import exceptions.InvalidInputException;
 import service.TaskService;
 import util.InputUtil;
 
@@ -13,7 +16,7 @@ public class CommandHandler {
         this.scanner = scanner;
     }
 
-    public void handle(){
+    public void handle() throws InvalidCommandException{
         boolean isContinue = true;
         while (isContinue){
             
@@ -52,7 +55,7 @@ public class CommandHandler {
                     handleTaskbyStatus();
                     break;
                 default:
-                    break;
+                     throw new InvalidCommandException("Command '" + choice + "' does not exist.");
             }
         }
     }
@@ -66,38 +69,58 @@ public class CommandHandler {
         System.out.println("6. List All Task");
         System.out.println("7. Filter Task by status");
 
-        int ch = InputUtil.readInt("\nEnter Choice: ", scanner);
-        return ch;
-        
+        try {
+            int ch = InputUtil.readInt("\nEnter Choice: ", scanner);
+            return ch;
+        } catch (InvalidInputException e) {
+            System.out.println("Invalid input: " + e.getMessage());
+            return -1;
+        }
     }
 
     public void handleAdd(){
-        
         String description = InputUtil.readString("Enter Description: ", scanner);
-
         taskService.addTask(description);
     }
     
     public void handleUpdate(){
-        int id = InputUtil.readInt("Enter ID: ", scanner);
-        String description = InputUtil.readString("Enter Description: ", scanner);
+        try {
+            int id = InputUtil.readInt("Enter ID: ", scanner);
+            String description = InputUtil.readString("Enter Description: ", scanner);
 
-        taskService.updateTask(id, description);
+            taskService.updateTask(id, description);
+        } catch (InvalidInputException e) {
+        System.out.println("Error: " + e.getMessage());
+            }  
     }
     
     public void handleDelete(){
-        int id = InputUtil.readInt("Enter ID: ", scanner);
-        taskService.deleteTask(id);
+        try {
+            int id = InputUtil.readInt("Enter ID: ", scanner);
+            taskService.deleteTask(id);
+        } catch (InvalidInputException e) {
+            System.out.println("Invalid input: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Unexpected error: " + e.getMessage());
+        }
     }
 
     public void handleInProgress(){
-        int id = InputUtil.readInt("Enter ID: ", scanner);
-        taskService.markInProgress(id);
+       try {
+            int id = InputUtil.readInt("Enter ID: ", scanner);
+            taskService.markInProgress(id);
+        } catch (InvalidInputException e) {
+            System.out.println("Invalid input: " + e.getMessage());
+        }
     }
 
     public void handleMarkDone(){
-        int id = InputUtil.readInt("Enter ID: ", scanner);
-        taskService.markDone(id);
+        try {
+            int id = InputUtil.readInt("Enter ID: ", scanner);
+            taskService.markDone(id);
+        } catch (InvalidInputException e) {
+            System.out.println("Invalid input: " + e.getMessage());
+        }
     }
     
     public void handleList(){

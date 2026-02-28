@@ -3,6 +3,9 @@ package service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+
+import exceptions.FileStorageException;
+import exceptions.TaskNotFoundException;
 import model.Status;
 import model.Task;
 import repository.TaskRepository;
@@ -26,7 +29,11 @@ public class TaskService {
 
         task = new Task(id, description, Status.TODO, createdAt, updatedAt);
         tasks.add(task);
-        taskRepository.saveTask(task);
+        try {
+            taskRepository.saveTask(task);
+        } catch (FileStorageException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void updateTask(int id, String description){
@@ -43,7 +50,11 @@ public class TaskService {
             }
         }
 
-        taskRepository.updateTask(tasks);
+        try {
+            taskRepository.updateTask(tasks);
+        } catch (FileStorageException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void deleteTask(int id){
@@ -57,7 +68,11 @@ public class TaskService {
             }
         }
 
-        taskRepository.deleteTask(tasks);
+        try {
+            taskRepository.deleteTask(tasks);
+        } catch (FileStorageException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void markInProgress(int id){
@@ -71,7 +86,11 @@ public class TaskService {
             }
         }
 
-        taskRepository.updateTask(tasks);
+        try {
+            taskRepository.updateTask(tasks);
+        } catch (FileStorageException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void markDone(int id){
@@ -85,11 +104,19 @@ public class TaskService {
             }
         }
         
-        taskRepository.updateTask(tasks);
+        try {
+            taskRepository.updateTask(tasks);
+        } catch (FileStorageException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void listTasks(){
-        taskRepository.loadTask();
+        try {
+            taskRepository.loadTask();
+        } catch (FileStorageException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public void listTasksbyStatus(){
@@ -115,6 +142,19 @@ public class TaskService {
                 System.out.println(task.toFileString());
             }
         }
+    }
+
+    public boolean idChecker(int id) throws TaskNotFoundException{
+        ListIterator<Task> allTask = tasks.listIterator();
+
+        while(allTask.hasNext()){
+            Task t = allTask.next();
+
+            if(id == t.getId()){
+                return true;
+            }
+        }
+        throw new TaskNotFoundException("Task Not Found.");
     }
 
     // ------ Getters --------
